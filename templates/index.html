@@ -1,1 +1,116 @@
-<!DOCTYPE html><html>    <head>        <title>Encryption</title>         <meta charset="utf-8">  <meta name="viewport" content="width=device-width, initial-scale=1">  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>        <script>      setTimeout(function(){   window.location.reload(1);}, 60000);$(function(){$("#count").hide()function otp(e,value){	       if(e!=0){        $("h1").html("Click on OTP to copy it to your clipboard!")        $("#textarea").hide()        $("#count").show()        $("#code").html(e)         reload(value)    }else{        $("#code").html("INVALID KEY")    }}function reload(seckey){setTimeout(function(){    $.ajax({  type: "POST",  url: "/verify",  data: {key:seckey} ,  success: function (data){otp(data,seckey)} , error: function (e) {alert(e)},   dataType: "text" }); },30000)} $('#textarea').click(function(){    bootbox.prompt({        title: 'Enter Secret Key',        placeholder: 'Secret Key',        value: '',        buttons: {            confirm: {                label: 'GET OTP'            }        },        callback: function(value){            $.ajax({  type: "POST",  url: "/verify",  data: {key:value.replace(/ /g,'')} ,  success: function (data){ otp(data,value) } , error: function (e) {alert(e)},   dataType: "text" });         }    });});    $("#code").click(function(){    $("#c").show()   $("#c").val($("#code").html())    copyText = document.getElementById("c");  copyText.select();  document.execCommand("copy");  $("#c").hide()  $("#suc").show();  $("#suc").fadeTo(2000, 500).slideUp(500, function(){    $("#suc").slideUp(500);});})})setInterval(function(){    var d=new Date();    var s=60-d.getSeconds()    s>=30&&(s=s-30)    var text="";    for(var i=0;i<s;i++){        text="#"+text;    }    $("#count").html(text)},1000)</script><style>#code{    font-weight:lighter;    font-size:55px;    color:#7CB342;}#suc{    display:none;}#c{display:none; opacity:0;}</style>    </head>    <body>    <div class="container">        <h1>ENTER YOUR SECRET KEY</h1>        <button id="textarea" type="button" class="btn btn-primary">ENTER</button><br>       <div id="code">{{otp}}</div>       <input id=c type=text>       <div id=suc class="alert alert-success" role="alert">  OTP copied to your clipboard!</div>       <div id="count">                  </div>    </div>    <center>     <br>  <br>     <div class="copy">Developer <a href="https://m.me/NikkiAmresh">@NikkyAmresh</a></div></center>    </body></html>
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Encryption</title>
+         <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
+        <script>
+      
+setTimeout(function(){
+   window.location.reload(1);
+}, 60000);
+$(function(){
+$("#count").hide()
+function otp(e,value){
+	       if(e!=0){
+        $("h1").html("Click on OTP to copy it to your clipboard!")
+        $("#textarea").hide()
+        $("#count").show()
+        $("#code").html(e) 
+        reload(value)
+    }else{
+        $("#code").html("INVALID KEY")
+    }
+}
+function reload(seckey){
+setTimeout(function(){
+    $.ajax({
+  type: "POST",
+  url: "/verify",
+  data: {key:seckey.replace(/ /g,'')} ,
+  success: function (data){otp(data,seckey)} ,
+ error: function (e) {alert(e)}, 
+  dataType: "text" 
+}); 
+},30000)
+}
+ $('#textarea').click(function(){
+    bootbox.prompt({
+        title: 'Enter Secret Key',
+        placeholder: 'Secret Key',
+        value: '',
+        buttons: {
+            confirm: {
+                label: 'GET OTP'
+            }
+        },
+        callback: function(value){
+            $.ajax({
+  type: "POST",
+  url: "/verify",
+  data: {key:value.replace(/ /g,'')} ,
+  success: function (data){ 
+otp(data,value) 
+} ,
+ error: function (e) {alert(e)}, 
+  dataType: "text" 
+}); 
+
+        }
+    });
+});
+    $("#code").click(function(){
+    $("#c").show()
+   $("#c").val($("#code").html())
+    copyText = document.getElementById("c");
+  copyText.select();
+  document.execCommand("copy");
+  $("#c").hide()
+  $("#suc").show();
+  $("#suc").fadeTo(2000, 500).slideUp(500, function(){
+    $("#suc").slideUp(500);
+});
+})
+})
+
+setInterval(function(){
+    var d=new Date();
+    var s=60-d.getSeconds()
+    s>=30&&(s=s-30)
+    var text="";
+    for(var i=0;i<s;i++){
+        text="#"+text;
+    }
+    $("#count").html(text)
+},1000)</script>
+<style>#code{
+    font-weight:lighter;
+    font-size:55px;
+    color:#7CB342;
+}
+#suc{
+    display:none;
+}
+#c{display:none; opacity:0;}</style>
+    </head>
+    <body>
+    <div class="container">
+        <h1>ENTER YOUR SECRET KEY</h1>
+        <button id="textarea" type="button" class="btn btn-primary">ENTER</button><br>
+       <div id="code">{{otp}}</div>
+       <input id=c type=text>
+       <div id=suc class="alert alert-success" role="alert">
+  OTP copied to your clipboard!
+</div>
+       <div id="count">
+           
+       </div>
+    </div>
+    <center> 
+    <br>  <br> 
+    <div class="copy">Developer <a href="https://m.me/NikkiAmresh">@NikkyAmresh</a></div></center>
+    </body>
+</html>
